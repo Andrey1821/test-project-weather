@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  weatherApiPath: 'https://fcc-weather-api.glitch.me/api/current'
 };
