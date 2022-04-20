@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { StoreService } from "./searvices/store.service";
-import { LocationTransformerService } from "./searvices/transformers/location-transformer.service";
+import { StoreService } from './searvices/store.service';
+import { CoordsGeolocationTransformerService } from './searvices/transformers/coords/coords-geolocation-transformer.service';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +12,18 @@ export class AppComponent implements OnInit {
 
   constructor(
     private store: StoreService,
-    private locationTransformerService: LocationTransformerService
+    private coordsTransformerService: CoordsGeolocationTransformerService
   ) {
   }
 
   ngOnInit(): void {
-    this.setUserLocation();
+    this.setUserCoords();
   }
 
-  private setUserLocation(): void {
-    navigator.geolocation.getCurrentPosition((data) => {
-      const location = this.locationTransformerService.transformToLocation(data);
-      this.store.userLocation.updateValue(location);
+  private setUserCoords(): void {
+    navigator.geolocation.getCurrentPosition((geoLocation) => {
+      const coords = this.coordsTransformerService.transform(geoLocation);
+      this.store.updateStoreValue(coords, this.store.userCoords);
     })
   }
 

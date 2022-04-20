@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class LocationTransformerService {
-  public transformToLocation(location: GeolocationPosition): ILocation {
+export class CoordsGeolocationTransformerService implements ITransformers<ICoords> {
+  public transform(location: GeolocationPosition): ICoords {
     return {
       lat: location.coords.latitude,
       lon: location.coords.longitude

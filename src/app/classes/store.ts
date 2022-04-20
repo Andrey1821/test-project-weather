@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class Store<T> {
   private _data$ = new BehaviorSubject<T | void>(undefined);
@@ -11,8 +11,9 @@ export class Store<T> {
     return this._data$.asObservable();
   }
 
-  public updateValue(data: T): void {
+  public updateValue(data: T): Observable<T> {
     this._data$.next(data);
+    return this._data$.asObservable() as Observable<T>;
   }
 
   public clearValue(): Observable<void> {

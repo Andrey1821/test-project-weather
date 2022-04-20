@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from "@angular/router";
-import { WeatherPageComponent } from "./weather-page/weather-page.component";
+import { RouterModule, Routes } from '@angular/router';
+import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
-  {path: '', component: WeatherPageComponent}
+  {path: '', component: MainPageComponent}
 ];
 
 @NgModule({
@@ -15,5 +15,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class WeatherPageRoutingModule {
+export class MainPageRoutingModule {
 }
