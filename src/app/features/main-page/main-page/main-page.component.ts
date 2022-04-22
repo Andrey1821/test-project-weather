@@ -42,7 +42,7 @@ export class MainPageComponent implements OnInit {
   }
 
   private getBasicLocation() {
-    this.mainPageLocationService.getUserLocation()
+    this.mainPageLocationService.getUserBasicLocation()
       .pipe(
         takeUntil(this.unsubscribeBasicLocation$)
       ).subscribe(location => {

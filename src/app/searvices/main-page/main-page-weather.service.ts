@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StoreService } from '../store.service';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { CoordsLocationTransformerService } from '../transformers/coords/coords-location-transformer.service';
-import { MainPageLocationService } from './main-page-location.service';
+import { LocationService } from '../location.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class MainPageWeatherService {
     private weatherService: WeatherService,
     private store: StoreService,
     private coordsTransformerService: CoordsLocationTransformerService,
-    private mainPageLocationService: MainPageLocationService
+    private locationService: LocationService
   ) {
   }
 
@@ -24,7 +24,7 @@ export class MainPageWeatherService {
       .pipe(
         filter(v => !!v),
         switchMap((coords) => this.weatherService.getWeather(coords!)),
-        tap((weather) => this.mainPageLocationService.setUserLocation(weather))
+        tap((weather) => this.locationService.setUserBasicLocation(weather))
       )
   }
 
