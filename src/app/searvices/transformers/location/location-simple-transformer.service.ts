@@ -7,7 +7,7 @@ export class LocationSimpleTransformerService implements ITransformers<ILocation
   public transform(name: string, coords: ICoords): ILocation {
     return {
       name,
-      ...coords,
+      coords
     }
   }
 }

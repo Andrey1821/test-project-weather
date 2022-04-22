@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+button {
+  outline: none;
+  border: 0;
+  background: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.c-pointer {
+  cursor: pointer;
+}

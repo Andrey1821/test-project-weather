@@ -1,0 +1,42 @@
+@import "~src/assets/styles/colors";
+
+app-weather {
+  .weather {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    padding: 0 15%;
+
+    &__body {
+      height: 600px;
+      width: 100%;
+      background-color: $so-light-grey;
+      padding: 20px 4%;
+      border-radius: 16px;
+    }
+
+    &__title {
+      text-align: center;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 40px;
+      color: $light-blue;
+      min-height: 55px;
+    }
+  }
+
+  .weather-content {
+    width: 100%;
+    margin-top: 64px;
+
+    &__image-block {
+      justify-content: center;
+      border-bottom: 2px solid $so-light-blue;
+    }
+
+    &__image {
+      height: 200px;
+    }
+  }
+}

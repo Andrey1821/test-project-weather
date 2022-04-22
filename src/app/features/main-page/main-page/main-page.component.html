@@ -1,2 +1,11 @@
-<p>{{basicLocation?.name}}</p>
-<p>{{weather?.weather?.temp}}</p>
+<div class="main-weather-page">
+
+  <div class="main-weather-page__body d-flex">
+    <section class="main-weather-page__location-bar">
+      <app-selected-location-bar [basicUserLocation]="basicLocation"></app-selected-location-bar>
+    </section>
+    <section class="main-weather-page__weather">
+      <app-weather [weather]="weather"></app-weather>
+    </section>
+  </div>
+</div>

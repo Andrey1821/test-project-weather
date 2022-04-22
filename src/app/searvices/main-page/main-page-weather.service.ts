@@ -3,7 +3,6 @@ import { WeatherService } from '../weather.service';
 import { Observable } from 'rxjs';
 import { StoreService } from '../store.service';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { CoordsLocationTransformerService } from '../transformers/coords/coords-location-transformer.service';
 import { LocationService } from '../location.service';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class MainPageWeatherService {
   constructor(
     private weatherService: WeatherService,
     private store: StoreService,
-    private coordsTransformerService: CoordsLocationTransformerService,
     private locationService: LocationService
   ) {
   }
@@ -28,8 +26,7 @@ export class MainPageWeatherService {
       )
   }
 
-  public getWeatherByCoords(location: ILocation): Observable<IWeather> {
-    const coords: ICoords = this.coordsTransformerService.transform(location);
+  public getWeatherByCoords(coords: ICoords): Observable<IWeather> {
     return this.weatherService.getWeather(coords);
   }
 }
