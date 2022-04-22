@@ -5,7 +5,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'weather', pathMatch: 'full'},
   {
     path: 'weather',
-    loadChildren: () => import('./features/weather-page/weather-page.module').then(m => m.WeatherPageModule)
+    loadChildren: () => import('./features/main-page/main-page.module').then(m => m.MainPageModule)
   }
 ];
 

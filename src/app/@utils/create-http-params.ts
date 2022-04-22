@@ -1,4 +1,4 @@
-import { HttpParams } from "@angular/common/http";
+import { HttpParams } from '@angular/common/http';
 
 export function createHttpParams(data: any): HttpParams {
   let params = new HttpParams();

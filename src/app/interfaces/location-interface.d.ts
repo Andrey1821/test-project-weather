@@ -1,4 +1,3 @@
-declare interface ILocation {
-  lat: number;
-  lon: number;
+declare interface ILocation extends ICoords {
+  name: string;
 }
