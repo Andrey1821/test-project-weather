@@ -1,0 +1,35 @@
+<div class="weather d-flex">
+  <div class="weather__body">
+    <ng-container *ngIf="weather">
+      <h2 class="weather__title">Weather in {{weather?.locationName}}</h2>
+      <div class="weather-content">
+        <div class="weather-content__main-block d-flex">
+          <img class="weather-content__image" src="{{weather.weather.weatherIcon}}">
+          <span class="weather-content__degree">{{weather.weather.temp|degree}}</span>
+        </div>
+        <div class="weather-content__description-block d-flex">
+          <div class="weather-content__description-item">
+            <p class="weather-content__description-title">Feels like</p>
+            <p class="weather-content__description-text">{{weather.weather.feelsLike|degree}}</p>
+          </div>
+          <div class="weather-content__description-item">
+            <p class="weather-content__description-title">Wind</p>
+            <p class="weather-content__description-text">{{weather.weather.windDeg|windDirection}}</p>
+          </div>
+          <div class="weather-content__description-item">
+            <p class="weather-content__description-title">Wind speed</p>
+            <p class="weather-content__description-text">{{weather.weather.windSpeed|speed: 'm/s'}}</p>
+          </div>
+          <div class="weather-content__description-item">
+            <p class="weather-content__description-title">Clouds</p>
+            <p class="weather-content__description-text">{{weather.weather.clouds / 100|percent}}</p>
+          </div>
+          <div class="weather-content__description-item">
+            <p class="weather-content__description-title">Humidity</p>
+            <p class="weather-content__description-text">{{weather.weather.humidity / 100|percent}}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

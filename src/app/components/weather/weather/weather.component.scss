@@ -1,4 +1,4 @@
-@import "~src/assets/styles/colors";
+@import "../../../../assets/styles/colors";
 
 app-weather {
   .weather {
@@ -30,13 +30,31 @@ app-weather {
     width: 100%;
     margin-top: 64px;
 
-    &__image-block {
+    &__main-block {
       justify-content: center;
       border-bottom: 2px solid $so-light-blue;
     }
 
     &__image {
       height: 200px;
+    }
+
+    &__degree {
+      font-size: 64px;
+      font-weight: 600;
+    }
+
+    &__description-block {
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    &__description-title {
+      font-weight: 600;
+    }
+
+    &__description-text {
+      color: $grey;
     }
   }
 }
