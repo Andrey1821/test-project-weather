@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MainPageWeatherService } from '../../../searvices/main-page/main-page-weather.service';
@@ -7,11 +7,12 @@ import { MainPageLocationService } from '../../../searvices/main-page/main-page-
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  styleUrls: ['./main-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MainPageComponent implements OnInit {
-  public basicLocation!: ILocation;
-  public weather!: IWeather;
+  public basicLocation: ILocation;
+  public weather: IWeather;
   private unsubscribeBasicWeather$ = new Subject<void>();
   private unsubscribeBasicLocation$ = new Subject<void>();
 
@@ -52,7 +53,7 @@ export class MainPageComponent implements OnInit {
   }
 
   private getWeatherByCoords(location: ILocation): void {
-    this.mainPageWeatherService.getWeatherByCoords(location);
+    this.mainPageWeatherService.getWeatherByCoords(location.coords);
   }
 
 }

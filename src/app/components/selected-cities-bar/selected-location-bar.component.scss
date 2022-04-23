@@ -1,0 +1,47 @@
+@import "~src/assets/styles/colors";
+
+app-selected-location-bar {
+  .selected-location-bar {
+    width: 100%;
+    height: 500px;
+    background-color: $so-light-grey;
+    border-radius: 8px;
+
+    &__body {
+      justify-content: center;
+      padding: 16px 4%;
+    }
+
+    &__header {
+      justify-content: center;
+      align-items: center;
+      background-color: $light-grey;
+      height: 55px;
+    }
+
+    &__title {
+      font-size: 24px;
+    }
+  }
+
+  .default-location {
+    width: 75%;
+    justify-content: center;
+
+    &__btn {
+      width: 100%;
+      min-height: 45px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      background-color: $light-blue;
+      color: $white;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: $blue;
+      }
+    }
+  }
+
+}

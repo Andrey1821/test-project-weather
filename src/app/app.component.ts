@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     navigator.geolocation.getCurrentPosition((geoLocation) => {
       const coords = this.coordsTransformerService.transform(geoLocation);
       this.store.updateStoreValue(coords, this.store.userCoords);
+      console.log(coords)
     })
   }
 
