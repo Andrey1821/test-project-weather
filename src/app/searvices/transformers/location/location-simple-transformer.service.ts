@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class LocationSimpleTransformerService implements ITransformers<ILocation> {
-  public transform(name: string, coords: ICoords): ILocation {
+export class LocationSimpleTransformerService implements ITransformer<ICoords, ILocation> {
+  public transform(coords: ICoords, locationName: string): ILocation {
     return {
-      name,
+      locationName,
       coords
     }
   }

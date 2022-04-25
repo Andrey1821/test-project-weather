@@ -1,0 +1,11 @@
+<div class="location-bar">
+  <div class="location-bar__header d-flex">
+    <h1 class="location-bar__title">{{title}}</h1>
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="location-bar__body d-flex">
+    <div class="location-bar__selected-location-bar">
+      <ng-content select="[body]"></ng-content>
+    </div>
+  </div>
+</div>

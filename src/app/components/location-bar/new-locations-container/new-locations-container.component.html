@@ -1,0 +1,8 @@
+<button class="c-pointer"
+        (click)="toggleVisibility()"
+>
+  <img class="new-location-container__image" src="assets/icons/add_icon.svg">
+</button>
+<div class="new-location-container__body" *ngIf="isVisibleBody">
+  <ng-content select="[body]"></ng-content>
+</div>

@@ -1,4 +1,4 @@
 declare interface ILocation {
-  name: string;
+  locationName: string;
   coords: ICoords
 }

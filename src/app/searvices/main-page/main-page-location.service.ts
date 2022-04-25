@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StoreService } from '../store.service';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { LocationService } from '../location.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +8,15 @@ import { filter } from 'rxjs/operators';
 export class MainPageLocationService {
 
   constructor(
-    private store: StoreService,
+    private locationsService: LocationService
   ) {
   }
 
   public getUserBasicLocation(): Observable<ILocation> {
-    return this.store.userLocation.changes$
-      .pipe(
-        filter(v => !!v)
-      ) as Observable<ILocation>;
+    return this.locationsService.getUserBasicLocation();
+  }
+
+  public getLocations(): Observable<ILocation[]> {
+    return this.locationsService.getLocations();
   }
 }

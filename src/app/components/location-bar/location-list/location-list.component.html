@@ -1,0 +1,7 @@
+<div class="default-location">
+  <button class="default-location__btn btn c-pointer">{{basicUserLocation?.locationName}}</button>
+  <app-location-item class="location-item"
+                    *ngFor="let location of savedLocations"
+                    [location]="location"
+  ></app-location-item>
+</div>
