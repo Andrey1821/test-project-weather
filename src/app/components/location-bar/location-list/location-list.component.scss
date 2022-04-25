@@ -1,0 +1,21 @@
+@import "../../../../assets/styles/colors";
+
+app-location-list {
+  display: block;
+  padding: 16px 4%;
+
+  .default-location {
+    &__btn {
+      background-color: $light-blue;
+      color: $white;
+
+      &:hover {
+        background-color: $blue;
+      }
+    }
+  }
+
+  .location-item {
+    margin-top: 16px;
+  }
+}

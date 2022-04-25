@@ -1,0 +1,31 @@
+@import "../../../../assets/styles/colors";
+
+app-location-bar {
+  .location-bar {
+    width: 100%;
+    background-color: $so-light-grey;
+    border-radius: 8px;
+
+    &__body {
+      justify-content: center;
+      height: 450px;
+      overflow-y: auto;
+    }
+
+    &__selected-location-bar {
+      height: 100%;
+      width: 75%;
+    }
+
+    &__header {
+      justify-content: center;
+      align-items: center;
+      background-color: $light-grey;
+      height: 55px;
+    }
+
+    &__title {
+      font-size: 24px;
+    }
+  }
+}

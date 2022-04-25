@@ -1,0 +1,14 @@
+@import "../../../../assets/styles/colors";
+
+app-new-location-list {
+  display: block;
+  padding: 16px 4%;
+
+  .location-item {
+    margin-top: 16px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}

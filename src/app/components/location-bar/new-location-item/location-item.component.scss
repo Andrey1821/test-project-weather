@@ -1,0 +1,15 @@
+@import "../../../../assets/styles/colors";
+
+app-location-item {
+  display: block;
+
+  .location-btn {
+    background-color: $grey;
+    color: $white;
+
+    &:hover {
+      background-color: $light-grey;
+    }
+  }
+
+}

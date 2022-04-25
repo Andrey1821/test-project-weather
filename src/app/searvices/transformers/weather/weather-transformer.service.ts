@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class WeatherTransformerService implements ITransformers<IWeather> {
+export class WeatherTransformerService implements ITransformer<IWeatherApi, IWeather> {
   public transform(weatherApi: IWeatherApi): IWeather {
     const {name, main, wind, clouds, weather, sys} = weatherApi;
     return {
