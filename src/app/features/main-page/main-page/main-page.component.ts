@@ -19,6 +19,7 @@ export class MainPageComponent implements OnInit {
   public onChangeLocations$ = new Subject<void>();
   public selectedLocationsBarTitle = 'Your Locations';
   public newLocationsBarTitle = 'Select Locations';
+  public isVisibleNewLocations = false;
   private unsubscribeBasicWeather$ = new Subject<void>();
   private unsubscribeBasicLocation$ = new Subject<void>();
 
@@ -31,6 +32,20 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initState();
+  }
+
+  public openNewLocations(): void {
+    this.isVisibleNewLocations = true;
+  }
+
+  public hideNewLocations(): void {
+    this.isVisibleNewLocations = false;
+  }
+
+  public saveLocation(location: ILocation): void {
+    this.savedLocations = [...this.savedLocations, location];
+    this.cd.detectChanges();
+    if(this.isLoaded()) this.emitOnChangedData();
   }
 
   private initState(): void {
@@ -72,12 +87,6 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  public saveLocation(location: ILocation): void {
-    this.savedLocations = [...this.savedLocations, location];
-    this.cd.detectChanges();
-    if(this.isLoaded()) this.emitOnChangedData();
-  }
-
   private getWeatherByCoords(location: ILocation): void {
     this.mainPageWeatherService.getWeatherByCoords(location.coords).subscribe();
   }
@@ -88,7 +97,6 @@ export class MainPageComponent implements OnInit {
 
 
   private emitOnChangedData(): void {
-    console.log(1);
     this.onChangeLocations$.next();
   }
 
