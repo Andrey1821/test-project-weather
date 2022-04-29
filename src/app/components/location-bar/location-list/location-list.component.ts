@@ -11,7 +11,7 @@ import { PaginationTransmitterService } from '../../../pagination/pagination/pag
 export class LocationListComponent {
   @Input() public basicUserLocation: ILocation;
   @Input() public savedLocations: ILocation[];
-  @Output() public onClick = new EventEmitter<ILocation>();
+  @Output() public onLocationClick = new EventEmitter<ILocation>();
   public showingLocations: ILocation[];
 
   constructor(private cd: ChangeDetectorRef) {
@@ -20,5 +20,9 @@ export class LocationListComponent {
   public refreshList(locations: ILocation[]): void {
     this.showingLocations = locations;
     this.cd.detectChanges();
+  }
+
+  public emitLocationClick(location: ILocation): void {
+    this.onLocationClick.emit(location);
   }
 }

@@ -11,6 +11,7 @@
         <app-location-list body
                            [basicUserLocation]="basicLocation"
                            [savedLocations]="savedLocations"
+                           (onLocationClick)="getWeatherByLocation($event)"
         ></app-location-list>
       </app-location-bar>
     </section>
@@ -23,9 +24,6 @@
                (click)="hideNewLocations()"
           >
           <app-new-location-list body
-                                 [basicUserLocation]="basicLocation"
-                                 [savedLocations]="savedLocations"
-                                 [locations]="locations"
                                  [onChangesLocations$]="onChangeLocations$"
                                  (onClick)="saveLocation($event)"
           ></app-new-location-list>
