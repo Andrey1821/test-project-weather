@@ -21,6 +21,12 @@ export class WindDirectionPipe implements PipeTransform {
       WIND_ENUM.W
     ];
     let result: string | undefined;
+
+    if(windDegree > WIND_ENUM['NW']) {
+      result = WIND_ENUM[271];
+      return result;
+    }
+
     basicWindDegree.forEach((deg, index) => {
       if (windDegree === deg) {
         result = windDirections[index][0];
@@ -28,7 +34,7 @@ export class WindDirectionPipe implements PipeTransform {
       if (windDegree > deg && windDegree < basicWindDegree[index + 1]) {
         result = windDirections[index][1];
       }
-    })
+    });
     return result;
   }
 

@@ -8,7 +8,8 @@ export class LocationApiTransformerService implements ITransformer<ILocationApi,
     return locationApi.records.map(record => {
       return {
         locationName: record.fields.ascii_name,
-        coords: this.transformToCoordinates(record.fields.coordinates)
+        coords: this.transformToCoordinates(record.fields.coordinates),
+        id: +record.fields.geoname_id
       }
     })
   }

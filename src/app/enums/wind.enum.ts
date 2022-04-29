@@ -6,5 +6,5 @@ export enum WIND_ENUM {
   S = 180,
   SW,
   W = 270,
-  NW
+  NW,
 }

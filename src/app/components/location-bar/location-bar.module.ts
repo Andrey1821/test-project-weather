@@ -5,6 +5,7 @@ import { LocationBarComponent } from './location-bar/location-bar.component';
 import { NewLocationListComponent } from './new-location-list/new-location-list.component';
 import { NewLocationsContainerComponent } from './new-locations-container/new-locations-container.component';
 import { LocationItemComponent } from './new-location-item/location-item.component';
+import { PaginationModule } from '../../pagination/pagination.module';
 
 const exportsComponentsDeclarations = [
   LocationListComponent, LocationBarComponent, NewLocationListComponent, NewLocationsContainerComponent
@@ -13,7 +14,8 @@ const exportsComponentsDeclarations = [
 @NgModule({
   declarations: [...exportsComponentsDeclarations, LocationItemComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    PaginationModule
   ],
   exports: [...exportsComponentsDeclarations]
 })

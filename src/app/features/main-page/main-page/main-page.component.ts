@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MainPageWeatherService } from '../../../searvices/main-page/main-page-weather.service';
 import { MainPageLocationService } from '../../../searvices/main-page/main-page-location.service';
 
@@ -16,6 +16,7 @@ export class MainPageComponent implements OnInit {
   public weather: IWeather;
   public locations: ILocation[];
   public savedLocations: ILocation[] = [];
+  public onChangeLocations$ = new Subject<void>();
   public selectedLocationsBarTitle = 'Your Locations';
   public newLocationsBarTitle = 'Select Locations';
   private unsubscribeBasicWeather$ = new Subject<void>();
@@ -56,6 +57,7 @@ export class MainPageComponent implements OnInit {
       ).subscribe(location => {
       this.basicLocation = location;
       this.cd.detectChanges();
+      if(this.isLoaded()) this.emitOnChangedData();
       this.unsubscribeBasicLocation$.next();
     });
   }
@@ -65,18 +67,29 @@ export class MainPageComponent implements OnInit {
       next: (locations) => {
         this.locations = locations;
         this.cd.detectChanges();
+        if(this.isLoaded()) this.emitOnChangedData();
       }
     })
   }
 
   public saveLocation(location: ILocation): void {
-    console.log(location)
     this.savedLocations = [...this.savedLocations, location];
     this.cd.detectChanges();
+    if(this.isLoaded()) this.emitOnChangedData();
   }
 
   private getWeatherByCoords(location: ILocation): void {
     this.mainPageWeatherService.getWeatherByCoords(location.coords).subscribe();
+  }
+
+  private isLoaded(): boolean {
+    return !!(this.basicLocation && this.locations)
+  }
+
+
+  private emitOnChangedData(): void {
+    console.log(1);
+    this.onChangeLocations$.next();
   }
 
 }
