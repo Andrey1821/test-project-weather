@@ -1,14 +1,20 @@
 <div class="location-list">
   <div class="default-location">
-    <button class="default-location__btn btn c-pointer">{{basicUserLocation?.locationName}}</button>
+    <button class="default-location__btn btn c-pointer"
+            (click)="emitLocationClick(basicUserLocation)"
+    >
+      {{basicUserLocation?.locationName}}
+    </button>
   </div>
-  <div class="location-list__container" appPagination
+  <div class="location-list__container"
+       appPagination
        [locations]="savedLocations"
        (onRefreshShowingList)="refreshList($event)"
   >
     <app-location-item class="location-list__item"
                        *ngFor="let location of showingLocations"
                        [location]="location"
+                       (click)="emitLocationClick(location)"
     ></app-location-item>
   </div>
   <div class="location-list-controller"

@@ -2,13 +2,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Unsubscriber } from '../../../decorators/unsubscriver';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -20,10 +20,10 @@ import { filter, takeUntil } from 'rxjs/operators';
 })
 @Unsubscriber
 export class NewLocationListComponent implements OnInit, OnDestroy {
-  @Input() public locations: ILocation[];
-  @Input() public basicUserLocation: ILocation;
-  @Input() public savedLocations: ILocation[] = [];
-  @Input() public onChangesLocations$: Subject<void>;
+  public locations: ILocation[];
+  public basicUserLocation: ILocation;
+  public savedLocations: ILocation[] = [];
+  @Input() public onChangesLocations$: BehaviorSubject<INewLocationConfig | undefined>;
   @Output() public onClick = new EventEmitter<ILocation>();
   private componentDestroy: () => Observable<unknown>;
 
@@ -36,11 +36,22 @@ export class NewLocationListComponent implements OnInit, OnDestroy {
 
   private subscribeOnChangesLocations(): void {
     this.onChangesLocations$
-      .pipe(takeUntil(this.componentDestroy()))
-      .subscribe(() => {
+      .pipe(
+        filter(v => !!v),
+        takeUntil(this.componentDestroy())
+      )
+      .subscribe(config => {
+        this.initData(config!);
         this.filterLocations();
         this.cd.detectChanges();
       });
+  }
+
+  private initData(newLocationsConfig: INewLocationConfig): void {
+    const {locations, basicUserLocation, savedLocations} = newLocationsConfig;
+    this.locations = locations;
+    this.savedLocations = savedLocations;
+    this.basicUserLocation = basicUserLocation;
   }
 
   private filterLocations(): void {

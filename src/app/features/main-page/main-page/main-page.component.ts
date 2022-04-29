@@ -16,12 +16,13 @@ export class MainPageComponent implements OnInit {
   public weather: IWeather;
   public locations: ILocation[];
   public savedLocations: ILocation[] = [];
-  public onChangeLocations$ = new Subject<void>();
+  public onChangeLocations$ = new BehaviorSubject<INewLocationConfig | undefined>(undefined);
   public selectedLocationsBarTitle = 'Your Locations';
   public newLocationsBarTitle = 'Select Locations';
   public isVisibleNewLocations = false;
   private unsubscribeBasicWeather$ = new Subject<void>();
   private unsubscribeBasicLocation$ = new Subject<void>();
+  private isSentRequest: boolean;
 
   constructor(
     private mainPageWeatherService: MainPageWeatherService,
@@ -32,20 +33,6 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initState();
-  }
-
-  public openNewLocations(): void {
-    this.isVisibleNewLocations = true;
-  }
-
-  public hideNewLocations(): void {
-    this.isVisibleNewLocations = false;
-  }
-
-  public saveLocation(location: ILocation): void {
-    this.savedLocations = [...this.savedLocations, location];
-    this.cd.detectChanges();
-    if(this.isLoaded()) this.emitOnChangedData();
   }
 
   private initState(): void {
@@ -66,29 +53,28 @@ export class MainPageComponent implements OnInit {
   }
 
   private getBasicLocation(): void {
+    if(this.isSentRequest) return;
+    this.isSentRequest = true;
+
     this.mainPageLocationService.getUserBasicLocation()
       .pipe(
         takeUntil(this.unsubscribeBasicLocation$)
       ).subscribe(location => {
       this.basicLocation = location;
       this.cd.detectChanges();
+      this.isSentRequest = false;
       if(this.isLoaded()) this.emitOnChangedData();
       this.unsubscribeBasicLocation$.next();
-    });
+    }, () => this.isSentRequest = false);
   }
 
   private getLocations(): void {
-    this.mainPageLocationService.getLocations().subscribe({
-      next: (locations) => {
-        this.locations = locations;
-        this.cd.detectChanges();
-        if(this.isLoaded()) this.emitOnChangedData();
-      }
+    this.mainPageLocationService.getLocations()
+      .subscribe((locations) => {
+      this.locations = locations;
+      this.cd.detectChanges();
+      if (this.isLoaded()) this.emitOnChangedData();
     })
-  }
-
-  private getWeatherByCoords(location: ILocation): void {
-    this.mainPageWeatherService.getWeatherByCoords(location.coords).subscribe();
   }
 
   private isLoaded(): boolean {
@@ -97,7 +83,41 @@ export class MainPageComponent implements OnInit {
 
 
   private emitOnChangedData(): void {
-    this.onChangeLocations$.next();
+    this.onChangeLocations$.next(this.createNewLocationConfig());
+  }
+
+  private createNewLocationConfig(): INewLocationConfig {
+    return {
+      locations: this.locations,
+      basicUserLocation: this.basicLocation,
+      savedLocations: this.savedLocations
+    }
+  }
+
+  public openNewLocations(): void {
+    this.isVisibleNewLocations = true;
+  }
+
+  public hideNewLocations(): void {
+    this.isVisibleNewLocations = false;
+  }
+
+  public saveLocation(location: ILocation): void {
+    this.savedLocations = [...this.savedLocations, location];
+    this.cd.detectChanges();
+    if (this.isLoaded()) this.emitOnChangedData();
+  }
+
+  public getWeatherByLocation(location: ILocation): void {
+    if(this.isSentRequest) return;
+    this.isSentRequest = true;
+
+    this.mainPageWeatherService.getWeatherByCoords(location.coords)
+      .subscribe(weather => {
+        this.weather = weather;
+        this.cd.detectChanges();
+        this.isSentRequest = false;
+      }, () => this.isSentRequest = false);
   }
 
 }
