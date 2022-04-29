@@ -20,8 +20,9 @@ export class LocationService {
   }
 
   public setUserBasicLocation(weather: IWeather): void {
+    const id = Date.now();
     const locationData: ILocation
-      = this.locationSimpleTransformerService.transform(this.store.userCoords.data!, weather.locationName);
+      = this.locationSimpleTransformerService.transform(this.store.userCoords.data!, weather.locationName, id);
     this.store.updateStoreValue(locationData, this.store.userLocation);
   }
 

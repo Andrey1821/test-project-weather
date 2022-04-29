@@ -5,7 +5,10 @@
         <app-new-locations-container header>
           <app-location-bar body [title]="newLocationsBarTitle">
             <app-new-location-list body
+                                   [basicUserLocation]="basicLocation"
+                                   [savedLocations]="savedLocations"
                                    [locations]="locations"
+                                   [onChangesLocations$]="onChangeLocations$"
                                    (onClick)="saveLocation($event)"
             ></app-new-location-list>
           </app-location-bar>

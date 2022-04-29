@@ -2,6 +2,7 @@
 
 app-location-list {
   display: block;
+  height: 100%;
   padding: 16px 4%;
 
   .default-location {
@@ -15,7 +16,53 @@ app-location-list {
     }
   }
 
-  .location-item {
-    margin-top: 16px;
+  .location-list {
+    position: relative;
+    height: 100%;
+
+    &__item {
+      margin-top: 16px;
+    }
+  }
+
+  .location-list-controller {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    &__container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 40px;
+      margin-top: 100%;
+    }
+
+    &__arrows {
+      position: absolute;
+    }
+
+    &__right-arrow {
+      right: 0;
+      transform: rotate(180deg);
+    }
+
+    &__left-arrow {
+      left: 0;
+    }
+
+    &__number {
+      margin-right: 8px;
+      font-size: 18px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    &__selected-number {
+      font-weight: 800;
+    }
   }
 }
