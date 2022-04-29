@@ -2,22 +2,34 @@
   <div class="main-weather-page__body d-flex">
     <section class="main-weather-page__location-bar">
       <app-location-bar [title]="selectedLocationsBarTitle">
-        <app-new-locations-container header>
-          <app-location-bar body [title]="newLocationsBarTitle">
-            <app-new-location-list body
-                                   [basicUserLocation]="basicLocation"
-                                   [savedLocations]="savedLocations"
-                                   [locations]="locations"
-                                   [onChangesLocations$]="onChangeLocations$"
-                                   (onClick)="saveLocation($event)"
-            ></app-new-location-list>
-          </app-location-bar>
-        </app-new-locations-container>
+        <img class="location-bar__header-image c-pointer"
+             src="assets/icons/add_icon.svg"
+             alt="add"
+             header
+             (click)="openNewLocations()"
+        >
         <app-location-list body
                            [basicUserLocation]="basicLocation"
                            [savedLocations]="savedLocations"
         ></app-location-list>
       </app-location-bar>
+    </section>
+    <section class="main-weather-page__new-location-bar" *ngIf="isVisibleNewLocations">
+        <app-location-bar [title]="newLocationsBarTitle">
+          <img class="location-bar__header-image c-pointer"
+               src="assets/icons/close_icon.svg"
+               alt="close"
+               header
+               (click)="hideNewLocations()"
+          >
+          <app-new-location-list body
+                                 [basicUserLocation]="basicLocation"
+                                 [savedLocations]="savedLocations"
+                                 [locations]="locations"
+                                 [onChangesLocations$]="onChangeLocations$"
+                                 (onClick)="saveLocation($event)"
+          ></app-new-location-list>
+        </app-location-bar>
     </section>
     <section class="main-weather-page__weather">
       <app-weather [weather]="weather"></app-weather>
