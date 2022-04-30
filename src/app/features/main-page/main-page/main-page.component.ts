@@ -1,8 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MainPageWeatherService } from '../../../searvices/main-page/main-page-weather.service';
 import { MainPageLocationService } from '../../../searvices/main-page/main-page-location.service';
+import { NEW_LOCATIONS, SAVED_LOCATIONS } from '../../../constants/storage-keys.consts';
+import { LOCATIONS_TYPES, SAVED_LOCATIONS_TYPE } from '../../../types/storage-keys.types';
 
 @Component({
   selector: 'app-main-page',
@@ -11,7 +20,7 @@ import { MainPageLocationService } from '../../../searvices/main-page/main-page-
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
   public basicLocation: ILocation;
   public weather: IWeather;
   public locations: ILocation[];
@@ -38,6 +47,7 @@ export class MainPageComponent implements OnInit {
   private initState(): void {
     this.getWeatherByBasicCoords();
     this.getBasicLocation();
+    this.getStorageLocations(SAVED_LOCATIONS);
     this.getLocations();
   }
 
@@ -68,11 +78,20 @@ export class MainPageComponent implements OnInit {
     }, () => this.isSentRequest = false);
   }
 
+  private getStorageLocations(key: LOCATIONS_TYPES): void {
+    this.savedLocations = this.mainPageLocationService.getStorageLocationsByKey(key) || [];
+  }
+
+  private setStorageLocations(key: LOCATIONS_TYPES): void {
+    this.mainPageLocationService.setStorageLocations(this.savedLocations, key);
+  }
+
   private getLocations(): void {
     this.mainPageLocationService.getLocations()
       .subscribe((locations) => {
       this.locations = locations;
       this.cd.detectChanges();
+      this.mainPageLocationService.setStorageLocations(locations, NEW_LOCATIONS);
       if (this.isLoaded()) this.emitOnChangedData();
     })
   }
@@ -105,6 +124,7 @@ export class MainPageComponent implements OnInit {
   public saveLocation(location: ILocation): void {
     this.savedLocations = [...this.savedLocations, location];
     this.cd.detectChanges();
+    this.setStorageLocations(SAVED_LOCATIONS);
     if (this.isLoaded()) this.emitOnChangedData();
   }
 
@@ -118,6 +138,10 @@ export class MainPageComponent implements OnInit {
         this.cd.detectChanges();
         this.isSentRequest = false;
       }, () => this.isSentRequest = false);
+  }
+
+  ngOnDestroy(): void {
+
   }
 
 }

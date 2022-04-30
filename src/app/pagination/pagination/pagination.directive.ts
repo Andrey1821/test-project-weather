@@ -75,10 +75,13 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   private createPageData(): void {
-    const iterationCount = Math.ceil(this.locations.length / this.elCount);
+    const iterationCount = Math.floor(this.locations.length / this.elCount);
     let startIndex = 0;
     let endIndex = this.elCount;
-    for (let i = 0; i <= iterationCount; i++) {
+    if(!this.pageDataArray[0]) {
+      this.pageDataArray[0] = [];
+    }
+    for (let i = 0; i < iterationCount; i++) {
       this.pageDataArray[i] = this.locations.slice(startIndex, endIndex);
       startIndex += this.elCount;
       endIndex += this.elCount;
