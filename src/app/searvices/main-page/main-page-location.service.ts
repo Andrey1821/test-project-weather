@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LocationService } from '../location.service';
+import { StorageService } from '../storage.service';
+import { LOCATIONS_TYPES } from '../../types/storage-keys.types';
+import { NEW_LOCATIONS } from '../../constants/storage-keys.consts';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +11,8 @@ import { LocationService } from '../location.service';
 export class MainPageLocationService {
 
   constructor(
-    private locationsService: LocationService
+    private locationsService: LocationService,
+    private storageService: StorageService
   ) {
   }
 
@@ -17,6 +21,16 @@ export class MainPageLocationService {
   }
 
   public getLocations(): Observable<ILocation[]> {
+    const newLocations = this.storageService.getStorageLocationsByKey(NEW_LOCATIONS)
+    if(newLocations) return of(newLocations);
     return this.locationsService.getLocations();
+  }
+
+  public getStorageLocationsByKey(key: LOCATIONS_TYPES): ILocation[] | undefined {
+    return this.storageService.getStorageLocationsByKey(key);
+  }
+
+  public setStorageLocations(locations: ILocation[], key: LOCATIONS_TYPES): void {
+    this.storageService.saveLocationsToStorage(locations, key);
   }
 }
