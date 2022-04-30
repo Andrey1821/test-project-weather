@@ -82,7 +82,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.savedLocations = this.mainPageLocationService.getStorageLocationsByKey(key) || [];
   }
 
-  private setStorageLocations(key: SAVED_LOCATIONS_TYPE): void {
+  private setStorageLocations(key: LOCATIONS_TYPES): void {
     this.mainPageLocationService.setStorageLocations(this.savedLocations, key);
   }
 

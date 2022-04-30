@@ -21,7 +21,7 @@ export class MainPageLocationService {
   }
 
   public getLocations(): Observable<ILocation[]> {
-    const newLocations = this.storageService.getStorageLocationsByKey(NEW_LOCATIONS)
+    const newLocations = this.getStorageLocationsByKey(NEW_LOCATIONS);
     if(newLocations) return of(newLocations);
     return this.locationsService.getLocations();
   }
