@@ -1,8 +1,8 @@
 <div>
-  <app-location-item class="location-item"
+  <app-location-item (click)="btnClick(location)"
                      *ngFor="let location of locations"
-                     (click)="btnClick(location)"
                      [location]="location"
+                     class="location-item"
   >
   </app-location-item>
 </div>

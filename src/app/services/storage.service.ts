@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LOCATIONS_TYPES, SAVED_LOCATIONS_TYPE } from '../types/storage-keys.types';
+import { LOCATIONS_TYPES } from '../types/storage-keys.types';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ export class StorageService {
 
   public getStorageLocationsByKey(key: LOCATIONS_TYPES): ILocation[] | undefined {
     const locations = localStorage.getItem(key);
-    if(!locations) {
+    if (!locations) {
       return;
-    }else {
+    } else {
       return JSON.parse(locations);
     }
   }

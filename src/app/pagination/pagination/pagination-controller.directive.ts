@@ -11,7 +11,7 @@ import { Unsubscriber } from '../../decorators/unsubscriver';
 export class PaginationControllerDirective implements OnInit, OnDestroy {
   private btnLeft: HTMLButtonElement;
   private btnRight: HTMLButtonElement;
-  private pageNumbersContainer: HTMLDivElement;
+  private pageNumbersContainer: HTMLDivElement | undefined;
   private selectedPage: number;
   private componentDestroy: () => Observable<unknown>;
 
@@ -55,11 +55,12 @@ export class PaginationControllerDirective implements OnInit, OnDestroy {
   }
 
   private createPageNumbers(pagesCount: number): void {
-    if (pagesCount <= 1) return;
     if (this.pageNumbersContainer) this.removeElement(this.pageNumbersContainer);
+    this.pageNumbersContainer = undefined;
+    if (pagesCount <= 1) return;
     this.createPageNumbersContainer();
     for (let i = 1; i <= pagesCount; i++) {
-      this.createPageNumber(i, 'as')
+      this.createPageNumber(i);
     }
   }
 
@@ -79,20 +80,19 @@ export class PaginationControllerDirective implements OnInit, OnDestroy {
 
   private createPageNumbersContainer(): void {
     this.pageNumbersContainer = this.createElement('div');
-    this.pageNumbersContainer.classList.add('location-list-controller__numbers-container')
+    this.pageNumbersContainer!.classList.add('location-list-controller__numbers-container')
   }
 
-  private createPageNumber(pageNumber: number, elClass: string) {
+  private createPageNumber(pageNumber: number) {
     const paragraphElement: HTMLSpanElement = this.createElement('span');
     paragraphElement.classList.add(
       'location-list-controller__number',
-      'c-pointer',
-      elClass
+      'c-pointer'
     );
-    if(this.selectedPage === pageNumber) paragraphElement.classList.add('location-list-controller__selected-number');
+    if (this.selectedPage === pageNumber) paragraphElement.classList.add('location-list-controller__selected-number');
     paragraphElement.textContent = `${pageNumber}`;
     this.subscribePageNumberClick(paragraphElement);
-    this.pageNumbersContainer.appendChild(paragraphElement);
+    this.pageNumbersContainer!.appendChild(paragraphElement);
     this.renderElement(this.pageNumbersContainer);
   }
 

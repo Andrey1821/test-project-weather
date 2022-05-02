@@ -4,7 +4,6 @@ import { PaginationDirective } from './pagination/pagination.directive';
 import { PaginationControllerDirective } from './pagination/pagination-controller.directive';
 
 
-
 @NgModule({
   declarations: [PaginationDirective, PaginationControllerDirective],
   imports: [
@@ -12,4 +11,5 @@ import { PaginationControllerDirective } from './pagination/pagination-controlle
   ],
   exports: [PaginationDirective, PaginationControllerDirective]
 })
-export class PaginationModule { }
+export class PaginationModule {
+}

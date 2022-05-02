@@ -9,7 +9,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 export class WeatherComponent implements OnInit {
   @Input() weather: IWeather
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

@@ -12,17 +12,22 @@ export class LocationListComponent {
   @Input() public basicUserLocation: ILocation;
   @Input() public savedLocations: ILocation[];
   @Output() public onLocationClick = new EventEmitter<ILocation>();
+  @Output() public onIconClick = new EventEmitter<ILocation>();
   public showingLocations: ILocation[];
 
   constructor(private cd: ChangeDetectorRef) {
   }
 
   public refreshList(locations: ILocation[]): void {
-    this.showingLocations = locations;
+    this.showingLocations = [...locations];
     this.cd.detectChanges();
   }
 
   public emitLocationClick(location: ILocation): void {
     this.onLocationClick.emit(location);
+  }
+
+  public emitIconClick(location: ILocation): void {
+    this.onIconClick.emit(location);
   }
 }

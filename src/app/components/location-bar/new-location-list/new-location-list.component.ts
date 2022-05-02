@@ -2,13 +2,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input, OnChanges,
+  Input,
   OnDestroy,
   OnInit,
-  Output, SimpleChanges,
+  Output,
   ViewEncapsulation
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Unsubscriber } from '../../../decorators/unsubscriver';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -20,11 +20,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 })
 @Unsubscriber
 export class NewLocationListComponent implements OnInit, OnDestroy {
+  @Input() public onChangesLocations$: BehaviorSubject<INewLocationConfig | undefined>;
+  @Output() public onClick = new EventEmitter<ILocation>();
   public locations: ILocation[];
   public basicUserLocation: ILocation;
   public savedLocations: ILocation[] = [];
-  @Input() public onChangesLocations$: BehaviorSubject<INewLocationConfig | undefined>;
-  @Output() public onClick = new EventEmitter<ILocation>();
   private componentDestroy: () => Observable<unknown>;
 
   constructor(private cd: ChangeDetectorRef) {
@@ -32,6 +32,10 @@ export class NewLocationListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscribeOnChangesLocations();
+  }
+
+  public btnClick(location: ILocation): void {
+    this.onClick.emit(location);
   }
 
   private subscribeOnChangesLocations(): void {
@@ -60,11 +64,6 @@ export class NewLocationListComponent implements OnInit, OnDestroy {
       return !commonArray.find(savedLocation => savedLocation?.id === location.id);
     });
   }
-
-  public btnClick(location: ILocation): void {
-    this.onClick.emit(location);
-  }
-
 
   ngOnDestroy(): void {
   }

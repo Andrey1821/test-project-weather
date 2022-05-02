@@ -2,32 +2,33 @@
   <div class="main-weather-page__body d-flex">
     <section class="main-weather-page__location-bar">
       <app-location-bar [title]="selectedLocationsBarTitle">
-        <img class="location-bar__header-image c-pointer"
-             src="assets/icons/add_icon.svg"
+        <img (click)="openNewLocations()"
              alt="add"
+             class="location-bar__header-image c-pointer"
              header
-             (click)="openNewLocations()"
+             src="assets/icons/add_icon.svg"
         >
-        <app-location-list body
+        <app-location-list (onIconClick)="removeLocation($event)"
+                           (onLocationClick)="getWeatherByLocation($event)"
                            [basicUserLocation]="basicLocation"
                            [savedLocations]="savedLocations"
-                           (onLocationClick)="getWeatherByLocation($event)"
+                           body
         ></app-location-list>
       </app-location-bar>
     </section>
-    <section class="main-weather-page__new-location-bar" *ngIf="isVisibleNewLocations">
-        <app-location-bar [title]="newLocationsBarTitle">
-          <img class="location-bar__header-image c-pointer"
-               src="assets/icons/close_icon.svg"
-               alt="close"
-               header
-               (click)="hideNewLocations()"
-          >
-          <app-new-location-list body
-                                 [onChangesLocations$]="onChangeLocations$"
-                                 (onClick)="saveLocation($event)"
-          ></app-new-location-list>
-        </app-location-bar>
+    <section *ngIf="isVisibleNewLocations" class="main-weather-page__new-location-bar">
+      <app-location-bar [title]="newLocationsBarTitle">
+        <img (click)="hideNewLocations()"
+             alt="close"
+             class="location-bar__header-image c-pointer"
+             header
+             src="assets/icons/close_icon.svg"
+        >
+        <app-new-location-list (onClick)="saveLocation($event)"
+                               [onChangesLocations$]="onChangeLocations$"
+                               body
+        ></app-new-location-list>
+      </app-location-bar>
     </section>
     <section class="main-weather-page__weather">
       <app-weather [weather]="weather"></app-weather>

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { StoreService } from './searvices/store.service';
-import { CoordsGeolocationTransformerService } from './searvices/transformers/coords/coords-geolocation-transformer.service';
+import { StoreService } from './services/store.service';
+import { CoordsGeolocationTransformerService } from './services/transformers/coords/coords-geolocation-transformer.service';
 
 @Component({
   selector: 'app-root',
