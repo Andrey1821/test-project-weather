@@ -22,6 +22,19 @@ app-location-list {
 
     &__item {
       margin-top: 16px;
+      position: relative;
+    }
+
+    &__icon {
+      display: block;
+      height: 24px;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      fill: $white;
+      color: $white;
+      z-index: 2;
     }
   }
 

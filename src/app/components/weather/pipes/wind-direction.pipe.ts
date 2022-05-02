@@ -22,7 +22,7 @@ export class WindDirectionPipe implements PipeTransform {
     ];
     let result: string | undefined;
 
-    if(windDegree > WIND_ENUM['NW']) {
+    if (windDegree > WIND_ENUM['NW']) {
       result = WIND_ENUM[271];
       return result;
     }

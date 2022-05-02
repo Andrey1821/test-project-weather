@@ -1,3 +1,5 @@
 <div>
-  <button class="location-btn btn c-pointer">{{location?.locationName}}</button>
+  <button class="location-btn btn c-pointer">{{location?.locationName}}
+    <ng-content select="[icon]"></ng-content>
+  </button>
 </div>

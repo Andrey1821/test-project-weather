@@ -42,8 +42,16 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
     return this.pageDataArray.length;
   }
 
+  private get simplePagesDataArray(): ILocation[] {
+    let simpleArray: ILocation[] = [];
+    for (let pageData of this.pageDataArray) {
+      simpleArray.push(...pageData);
+    }
+    return simpleArray;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if(this.pageDataArray.length) {
+    if (this.pageDataArray.length) {
       this.selectChangePageDataMethod();
     }
   }
@@ -52,6 +60,9 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
     this.initState();
     this.subscribeSwitchPageBySign();
     this.subscribeSwitchPageByNum();
+  }
+
+  ngOnDestroy(): void {
   }
 
   private initState(): void {
@@ -75,10 +86,10 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   private createPageData(): void {
-    const iterationCount = Math.floor(this.locations.length / this.elCount);
+    const iterationCount = this.locations.length / this.elCount;
     let startIndex = 0;
     let endIndex = this.elCount;
-    if(!this.pageDataArray[0]) {
+    if (!this.pageDataArray[0]) {
       this.pageDataArray[0] = [];
     }
     for (let i = 0; i < iterationCount; i++) {
@@ -92,12 +103,14 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
   private selectChangePageDataMethod(): void {
     if (this.locations.length > this.pagesDataLength) {
       this.addItem();
+    } else {
+      this.removeItem();
     }
   }
 
   private addItem(): void {
     const lastPageIdx = this.pagesCount ? this.pagesCount - 1 : 0;
-    const newLocation = this.findNewLocation();
+    const newLocation = this.findLocationsChanges(this.locations, this.simplePagesDataArray);
     if (this.pageDataArray[lastPageIdx].length < this.elCount) {
       this.pageDataArray[lastPageIdx].push(newLocation!);
     } else {
@@ -106,10 +119,38 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
     this.refreshShowingList(this.pageDataArray[this.currentIdx]);
   }
 
-  private findNewLocation(): ILocation | undefined {
+  private removeItem(): void {
+    const deletedLocation = this.findLocationsChanges(this.simplePagesDataArray, this.locations);
+    const deleteIndex = this.simplePagesDataArray.findIndex(locationData => locationData.id === deletedLocation?.id);
+    const pageItemIdx = deleteIndex % this.elCount;
+    const pageIndex = (deleteIndex - pageItemIdx) / this.elCount;
+    this.pageDataArray[pageIndex].splice(pageItemIdx, 1);
+    if (!this.pageDataArray[pageIndex][0]) {
+      if (this.currentIdx) {
+        this.currentIdx--;
+        this.pageDataArray.splice(pageIndex, 1);
+      }
+      this.refreshShowingList(this.pageDataArray[this.currentIdx]);
+      return;
+    }
+    if (!this.pageDataArray[pageIndex + 1]) {
+      this.refreshShowingList(this.pageDataArray[this.currentIdx]);
+      return;
+    }
+    this.pageDataArray[pageIndex].push(this.pageDataArray[pageIndex + 1][0]);
+    this.pageDataArray[pageIndex + 1].splice(0, 1);
+    if (!this.pageDataArray[pageIndex + 1][0]) {
+      this.pageDataArray.splice(pageIndex + 1, 1);
+      this.refreshShowingList(this.pageDataArray[this.currentIdx]);
+      return;
+    }
+    this.refreshShowingList(this.pageDataArray[this.currentIdx]);
+  }
+
+  private findLocationsChanges(newState: ILocation[], oldState: ILocation[]): ILocation | undefined {
     let newLocation: ILocation | undefined;
-    for (let location of this.locations) {
-      const foundLocation = this.findItemOnPages(location);
+    for (let location of newState) {
+      const foundLocation = this.findItem(location, oldState);
       if (!foundLocation) {
         newLocation = location;
         break;
@@ -118,13 +159,8 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
     return newLocation;
   }
 
-  private findItemOnPages(location: ILocation): ILocation | undefined {
-    let foundLocation: ILocation | undefined;
-    for (let pageData of this.pageDataArray) {
-      foundLocation = pageData.find(pageLocation => pageLocation.id === location.id);
-      if(foundLocation) break;
-    }
-    return foundLocation;
+  private findItem(location: ILocation, locations: ILocation[]): ILocation | undefined {
+    return locations.find(locationData => locationData.id === location.id);
   }
 
   private switchPageBySign(sign: '+' | '-'): void {
@@ -153,8 +189,5 @@ export class PaginationDirective implements OnInit, OnChanges, OnDestroy {
       currentIdx: this.currentIdx,
       pagesData: this.pageDataArray
     }
-  }
-
-  ngOnDestroy(): void {
   }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class LocationApiTransformerService implements ITransformer<ILocationApi, ILocation[]>{
+export class LocationApiTransformerService implements ITransformer<ILocationApi, ILocation[]> {
   transform(locationApi: ILocationApi): ILocation[] {
     return locationApi.records.map(record => {
       return {

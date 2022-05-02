@@ -12,4 +12,5 @@ import { SpeedPipe } from './pipes/speed.pipe';
   ],
   exports: [WeatherComponent, DegreePipe]
 })
-export class WeatherModule { }
+export class WeatherModule {
+}
